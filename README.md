@@ -16,7 +16,7 @@ Get-AADCDiagData [[-days] <Int32>] [[-logpath] <String>] [[-dumpAllData] <Object
 ### `-days`
 Days to save run-history
 
-| | |
+| Description | Value |
 |:-----------|------------:|
 | Type: | Int32 |
 | Position: | 1 |
@@ -28,7 +28,7 @@ Days to save run-history
 ### `-logpath`
 Path to save the output
 
-| | |
+| Description | Value |
 |:-----------|------------:|
 | Type: | String |
 | Position: | 2 |
@@ -40,7 +40,7 @@ Path to save the output
 ### `-dumpAllData`
 Get all dump details
 
-| | |
+| Description | Value |
 |:-----------|------------:|
 | Type: | Boolean |
 | Position: |  3 |
@@ -51,7 +51,7 @@ Get all dump details
 ### `-AllDataMode`
 File format of run-history: "TXT" or "XML"
         
-| | |
+| Description | Value |
 |:-----------|------------:|
 | Type: | String |
 | Position: | 4 |
@@ -62,7 +62,7 @@ File format of run-history: "TXT" or "XML"
 ### `-TraceON`
 Get network trace when this parameter is set to True
 
-| | |
+| Description | Value |
 |:-----------|------------:|
 | Type: | Boolean |
 | Position: | 5 |
