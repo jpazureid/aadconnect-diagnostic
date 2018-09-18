@@ -66,7 +66,7 @@ Get network trace when this parameter is set to True
 |:-----------|------------:|
 | Type: | Boolean |
 | Position: | 5 |
-| Default value: False |
+| Default value: | False |
 | Accept pipeline input: | False |
 | Accept wildcard characters: | False |
         
