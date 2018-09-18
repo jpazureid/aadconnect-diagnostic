@@ -1,11 +1,10 @@
-# Get-AADCDiagData
+# aadconnect-diagnostic
     
 ## Description
 
 Get diagnostic data of Azure AD Connect
-    
-    
-## Syntax
+  
+## Usage
 
 ```PowerShell
 Get-AADCDiagData [[-days] <Int32>] [[-logpath] <String>] [[-dumpAllData] <Object>] [[-AllDataMode] <Object>] [[-TraceON] <Boolean>] [<CommonParameters>]
