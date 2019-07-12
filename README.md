@@ -1,5 +1,5 @@
 # AADC サーバー情報一括採取ツール
-    
+
 ## 概要
 
 本スクリプトは、AADC サーバーの情報を一括で採取します。
@@ -8,9 +8,9 @@
 [\[調査に有効な採取情報\] Azure AD Connect サーバーの全般情報](https://github.com/jpazureid/blog/blob/master/azure-active-directory-connect/general-information.md )
   
 ## AADC サーバー情報一括採取ツールの手順
-    
+
 ### 簡易取得 (GetObj なし, NetTrace なし)
- 
+
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
@@ -29,7 +29,7 @@
 
 
 ### フル取得 (GetObj あり, NetTrace あり)
- 
+
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
