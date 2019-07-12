@@ -4,7 +4,7 @@
 
 本スクリプトは、AADC サーバーの情報を一括で採取します。本スクリプトにて採取する資料は、以下の弊社 Blog に公開されたものが中心となります。
 
-[\[調査に有効な採取情報\] Azure AD Connect サーバーの全般情報](https://github.com/jpazureid/blog/blob/master/azure-active-directory-connect/general-information.md )
+[\[調査に有効な採取情報\] Azure AD Connect サーバーの全般情報](https://github.com/jpazureid/blog/blob/master/articles/azure-active-directory-connect/general-information.md)
   
 ## AADC サーバー情報一括採取ツールの手順
 
