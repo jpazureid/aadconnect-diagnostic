@@ -15,7 +15,7 @@
 3. 下記のように実行します。
 
     ```powershell
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>`
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>
     ```
 
     スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
