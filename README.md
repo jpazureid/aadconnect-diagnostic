@@ -19,6 +19,12 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>`
     ```
 
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>}
+    ```
+
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
 
@@ -33,6 +39,12 @@
     ```
 
     * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
+
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceON $true -GetObj $true}
+    ```
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
@@ -56,11 +68,10 @@
     * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
     * ユーザー名には UPN (user01@contoso.com) を入力いただく必要はございません。ユーザー名 (user01) のみ入力ください。 
 
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)}
+    ````
+
 5. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
-
-### :memo: 補足
-スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
-
-```powershell
-Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)}
-````
