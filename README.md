@@ -1,94 +1,76 @@
-# aadconnect-diagnostic
-    
-## Description
+# AADC サーバー情報一括採取ツール
 
-Get diagnostic data of Azure AD Connect
+## 概要
+
+本スクリプトは、AADC サーバーの情報を一括で採取します。本スクリプトにて採取する資料は、以下の弊社 Blog に公開されたものが中心となります。
+
+[\[調査に有効な採取情報\] Azure AD Connect サーバーの全般情報](https://github.com/jpazureid/blog/blob/master/articles/azure-active-directory-connect/general-information.md)
   
-## Usage
+## AADC サーバー情報一括採取ツールの手順
 
-```PowerShell
-Get-AADCDiagData [[-days] <Int32>] [[-logpath] <String>] [[-dumpAllData] <Object>] [[-AllDataMode] <Object>] [[-TraceON] <Boolean>] [<CommonParameters>]
-``` 
+### 簡易取得 (GetObj なし, NetTrace なし)
 
-## Parameters
+1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 下記のように実行します。
 
-### `-days`
-Days to save run-history
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>
+    ```
 
-| Description | Value |
-|:-----------|------------:|
-| Type: | Int32 |
-| Position: | 1 |
-| Default value: | 7 |
-| Accept pipeline input: | False |
-| Accept wildcard characters: | False |
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>}
+    ```
+
+4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
 
-### `-logpath`
-Path to save the output
+### フル取得 (GetObj あり, NetTrace あり)
 
-| Description | Value |
-|:-----------|------------:|
-| Type: | String |
-| Position: | 2 |
-| Default value: | c:\AADCLOG |
-| Accept pipeline input: | False |
-| Accept wildcard characters: | False |
+1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 下記のように実行します。
 
-        
-### `-dumpAllData`
-Get all dump details
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceON $True -GetObj $true
+    ```
 
-| Description | Value |
-|:-----------|------------:|
-| Type: | Boolean |
-| Position: |  3 |
-| Default value: | False |
-| Accept pipeline input: | False |
-| Accept wildcard characters: | False |
-        
-### `-AllDataMode`
-File format of run-history: "TXT" or "XML"
-        
-| Description | Value |
-|:-----------|------------:|
-| Type: | String |
-| Position: | 4 |
-| Default value:| TXT |
-| Accept pipeline input: | False |
-| Accept wildcard characters: | False |
-        
-### `-TraceON`
-Get network trace when this parameter is set to True
+    * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
 
-| Description | Value |
-|:-----------|------------:|
-| Type: | Boolean |
-| Position: | 5 |
-| Default value: | False |
-| Accept pipeline input: | False |
-| Accept wildcard characters: | False |
-        
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
 
-## Exmaples
-    
-### EXAMPLE 1
-Save the diagnostic data to the specified directory
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceON $true -GetObj $true}
+    ```
 
-```PowerShell
-C:\PS>Get-AADCDiagData.ps1 -logpath .\AADCLOG
-```
+4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-### EXAMPLE 2
-Save the network trace together
 
-```PowerShell
-C:\PS>Get-AADCDiagData.ps1 -TraceON $True
-```
+### 簡易取得+特定のオブジェクト情報取得 (GetObj あり, NetTrace なし)
 
-### EXAMPLE 3
-Run the script when running script is restricted
+1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 下記のように実行します。
 
-```PowerShell
-C:\PS>Powershell.exe -ExecutionPolicy RemoteSigned -File .\Get-AADCDiagData.ps1
-```
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>
+    ```
+
+4. 完了したら、続けて、任意のオブジェクトについて、下記のように実行します。
+
+    ```powershell 
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)>
+    ```
+
+    * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
+    * ユーザー名には UPN (user01@contoso.com) を入力いただく必要はございません。ユーザー名 (user01) のみ入力ください。 
+
+    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+
+    ```powershell
+    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)}
+    ````
+
+5. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
