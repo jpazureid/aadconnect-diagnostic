@@ -52,7 +52,7 @@
 
 	Azure AD Connect の下記 サービス再起動します。
 
-	Microsoft Azure AD Sync
+	***Microsoft Azure AD Sync***
 
 	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
@@ -71,9 +71,10 @@
     ```
 
 	**!! ご留意ください !!**
+	
 	Azure AD Connect Passthrough Authentication の下記 サービス再起動します。
 
-	Microsoft Azure AD Connect Authentication Agent
+	***Microsoft Azure AD Connect Authentication Agent***
 
 	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
@@ -91,10 +92,11 @@
     ```
 
 	**!! ご留意ください !!**
+	
 	Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
 
-	Azure AD Connect Health Sync Insights Service
-	Azure AD Connect Health Sync Monitoring Service
+	***Azure AD Connect Health Sync Insights Service***
+	***Azure AD Connect Health Sync Monitoring Service***
 
 	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
@@ -111,10 +113,10 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor ConfiguraionOrOtherthing
     ```
 
-上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
 
-	Please start configuration steps or onther scenarios.
-	If you have finished all steps, then close configuration wizard and press enter here...:
+		Please start configuration steps or onther scenarios.
+		If you have finished all steps, then close configuration wizard and press enter here...:
 
 
 4. 構成ウイザードなどを進め、エラー事象を再現します。
