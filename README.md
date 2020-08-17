@@ -107,6 +107,7 @@
 	Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
 
 	***Azure AD Connect Health Sync Insights Service***
+	
 	***Azure AD Connect Health Sync Monitoring Service***
 
 	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
