@@ -48,7 +48,7 @@
     ```
 
 
-	***!! ご留意ください !!*** 
+	**!! ご留意ください !!** 
 
 	Azure AD Connect の下記 サービス再起動します。
 
@@ -70,12 +70,12 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor PathThroughAuth
     ```
 
-#### !! ご留意ください !!
-Azure AD Connect Passthrough Authentication の下記 サービス再起動します。
+	**!! ご留意ください !!**
+	Azure AD Connect Passthrough Authentication の下記 サービス再起動します。
 
-Microsoft Azure AD Connect Authentication Agent
+	Microsoft Azure AD Connect Authentication Agent
 
-サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
@@ -90,13 +90,13 @@ Microsoft Azure AD Connect Authentication Agent
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor Health
     ```
 
-#### !! ご留意ください !!
-Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
+	**!! ご留意ください !!**
+	Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
 
-Azure AD Connect Health Sync Insights Service
-Azure AD Connect Health Sync Monitoring Service
+	Azure AD Connect Health Sync Insights Service
+	Azure AD Connect Health Sync Monitoring Service
 
-サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
