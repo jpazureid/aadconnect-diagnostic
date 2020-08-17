@@ -2,15 +2,17 @@
 
 ## 概要
 
-本スクリプトは、AADC サーバーの情報を一括で採取します。本スクリプトにて採取する資料は、以下の弊社 Blog に公開されたものが中心となります。
-
-[\[調査に有効な採取情報\] Azure AD Connect サーバーの全般情報](https://github.com/jpazureid/blog/blob/master/articles/azure-active-directory-connect/general-information.md)
+本スクリプトは、AADC サーバーの情報を一括で採取します。
   
+<br>
+
+
 ## AADC サーバー情報一括採取ツールの手順
 
-### 簡易取得 (GetObj なし, NetTrace なし)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+### 簡易取得
+
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -18,59 +20,124 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>
     ```
 
-    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
-
-    ```powershell
-    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>}
-    ```
-
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
+<br>
+<br>
 
-### フル取得 (GetObj あり, NetTrace あり)
+### オブジェクト情報 (CS/MV) 取得
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 以下のように、ドメイン名とオブジェクトの DN (DistinguishName) 値を指定してスクリプトを実行します。 
+
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "<ドメイン名>" -GetObjADdn "<DN 値>"
+    ```
+    例: 
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com"
+    ```
+    
+4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
+
+<br>
+<br>
+
+### シナリオトレース (オブジェクト同期、パスワードハッシュ同期、パスワードライトバック)
+
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
     ```powershell
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceON $True -GetObj $true
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor DirSyncAndPHSAndPWB
     ```
 
-    * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
 
-    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+	**!! ご留意ください !!** 
 
-    ```powershell
-    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceON $true -GetObj $true}
-    ```
+	Azure AD Connect の下記 サービス再起動します。
+
+	***Microsoft Azure AD Sync***
+
+	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
+<br>
+<br>
 
-### 簡易取得+特定のオブジェクト情報取得 (GetObj あり, NetTrace なし)
+### シナリオトレース (パススルー認証)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
     ```powershell
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先>
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor PathThroughAuth
     ```
 
-4. 完了したら、続けて、任意のオブジェクトについて、下記のように実行します。
+	**!! ご留意ください !!**
+	
+	Azure AD Connect Passthrough Authentication の下記 サービス再起動します。
 
-    ```powershell 
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)>
-    ```
+	***Microsoft Azure AD Connect Authentication Agent***
 
-    * 実行直後に資格情報の入力を求められるので、オンプレミスフォレストの管理者資格情報を入力してください。
-    * ユーザー名には UPN (user01@contoso.com) を入力いただく必要はございません。ユーザー名 (user01) のみ入力ください。 
+	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
-    スクリプトの実行が許可されていない場合 (Restricted) は、下記コマンドを利用してスクリプトを実行することが可能です。
+4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
+
+<br>
+<br>
+
+### シナリオトレース (Azure AD Connect Health for Sync)
+
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 下記のように実行します。
 
     ```powershell
-    Powershell.exe -ExecutionPolicy RemoteSigned -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObj $true -ForestName <対象オブジェクトが存在するフォレスト名 (例 : contoso.com)> -ObjectName <オブジェクト名 (例 : user01)}
-    ````
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor Health
+    ```
 
-5. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
+	**!! ご留意ください !!**
+	
+	Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
+
+	***Azure AD Connect Health Sync Insights Service***
+	
+	***Azure AD Connect Health Sync Monitoring Service***
+
+	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+
+4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
+
+<br>
+<br>
+
+### シナリオトレース (構成ウィザード)
+
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
+3. 下記のように実行します。
+
+    ```powershell
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor ConfiguraionOrOtherthing
+    ```
+
+	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+
+		Please start configuration steps or onther scenarios.
+		If you have finished all steps, then close configuration wizard and press enter here...:
+
+
+4. 構成ウイザードなどを進め、エラー事象を再現します。
+
+5. エラー再現後は、手順 1 で開いた PowerShell ウィンドウ上で Enter キーを入力します。
+
+	※構成ウィザードを実行した場合は、構成ウィザードを閉じてから Enter を押してください。
+
+6. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
+
