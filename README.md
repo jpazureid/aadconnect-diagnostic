@@ -12,7 +12,7 @@
 
 ### 簡易取得
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -27,7 +27,7 @@
 
 ### オブジェクト情報 (CS/MV) 取得
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 以下のように、ドメイン名とオブジェクトの DN (DistinguishName) 値を指定してスクリプトを実行します。 
 
@@ -46,7 +46,7 @@
 
 ### シナリオトレース (オブジェクト同期、パスワードハッシュ同期、パスワードライトバック)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -71,7 +71,7 @@
 
 ### シナリオトレース (パススルー認証)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -94,7 +94,7 @@
 
 ### シナリオトレース (Azure AD Connect Health for Sync)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -119,7 +119,7 @@
 
 ### シナリオトレース (構成ウィザード)
 
-1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
