@@ -6,8 +6,11 @@
   
 <br>
 <br>
+
 ## AADC サーバー情報一括採取ツールの手順
+
 <br>
+
 ### 簡易取得
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
@@ -22,6 +25,7 @@
 
 <br>
 <br>
+
 ### オブジェクト情報 (CS/MV) 取得
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
@@ -40,6 +44,7 @@
 
 <br>
 <br>
+
 ### シナリオトレース (オブジェクト同期、パスワードハッシュ同期、パスワードライトバック)
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
@@ -64,6 +69,7 @@
 
 <br>
 <br>
+
 ### シナリオトレース (パススルー認証)
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
@@ -86,6 +92,7 @@
 
 <br>
 <br>
+
 ### シナリオトレース (Azure AD Connect Health for Sync)
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
@@ -109,6 +116,7 @@
 
 <br>
 <br>
+
 ### シナリオトレース (構成ウィザード)
 
 1. Clone or download より Get-AADCDiagData.ps1 をダウンロードします。
