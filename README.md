@@ -129,7 +129,7 @@
 
 	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
 
-		Please start configuration steps or onther scenarios.
+		Please start configuration steps or other scenarios.
 		If you have finished all steps, then close configuration wizard and press enter here...:
 
 
