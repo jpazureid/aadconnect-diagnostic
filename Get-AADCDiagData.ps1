@@ -1,6 +1,6 @@
 ﻿<#
     .Synopsis
-    Version 9.2.2
+    Version 9.2.3
 
     .DESCRIPTION
     Collect Azure AD Connect logs.
@@ -220,7 +220,7 @@ function Get-NetworkTrace{
             }
           }
         ConfiguraionOrOtherthing {
-            Write-Host "Please start configuration steps or onther scenarios." -ForegroundColor Green -BackgroundColor Black
+            Write-Host "Please start configuration steps or other scenarios." -ForegroundColor Green -BackgroundColor Black
             Get-Date -Format "yyyy/MM/dd HH:mm:ss"| Out-File -FilePath $operationLog -Append
             Write-Output "NetTrace for ConfiguraionOrOtherthing started." | Out-File -FilePath $operationLog -Append
             $psrPath = $netTracePath + "\psr.zip"
