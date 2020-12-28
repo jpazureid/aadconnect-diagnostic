@@ -1,6 +1,6 @@
 ﻿<#
     .Synopsis
-    Version 9.2.3
+    Version 9.3.0
 
     .DESCRIPTION
     Collect Azure AD Connect logs.
@@ -17,11 +17,11 @@
     .EXAMPLE
     .\Get-AADCDiagData.ps1 -NetTraceFor DirSyncAndPHSAndPWB
 
-    .PARAMETER GetObjDomainName_GetObjADdn
+    .PARAMETER GetObjDomainName,GetObjADdn,DomainAdminName and DomainAdminPassword
     Specifies distinguishName of AD object in order to collect it's CS information and MV information.
 
     .EXAMPLE
-    .\Get-AADCDiagData.ps1 -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com"
+    .\Get-AADCDiagData.ps1 -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com" -DomainAdminName "consoto\admin01" -DomainAdminPassword "Password"
 
 #>
 
@@ -29,7 +29,9 @@ param(
     [string] $Logpath = "c:\AADCLOG",
     [ValidateSet("DirSyncAndPHSAndPWB", "PathThroughAuth", "Health", "ConfiguraionOrOtherthing")]$NetTraceFor,
     [string]$GetObjDomainName,
-    [string]$GetObjADdn
+    [string]$GetObjADdn,
+    [string]$DomainAdminName,
+    [string]$DomainAdminPassword
 )
 
 #region Functions
@@ -242,10 +244,12 @@ function Get-NetworkTrace{
     }
 
 }
+
 function Get-CSinfo{
     param(
         $ConnectorName,$ObjectDn
     )
+
     $objPath = $global:Logpath + "\" + "OBJECT"
     if(Test-path $objPath){}else{New-item -ItemType Directory -Path $objPath }
 
@@ -262,11 +266,6 @@ function Get-CSinfo{
         Write-Output "## Export CS object Attributes" | Out-File -FilePath $csObjectFile -Append
         $csObjet.Attributes | Out-File -FilePath $csObjectFile -Append
     
-        if($ConnectorName -notlike "*AAD"){
-            Import-Module "C:\Program Files\Microsoft Azure Active Directory Connect\AdSyncConfig\AdSyncConfig.psm1"
-            Write-Output "## Show-ADSyncADObjectPermissions for this object" | Out-File -FilePath $csObjectFile -Append
-            Show-ADSyncADObjectPermissions -ADobjectDN $csObjet.DistinguishedName | Out-File -FilePath $csObjectFile -Append
-        }
     
     }
     return $csObjet        
@@ -276,6 +275,7 @@ function Get-MVinfo{
     param(
         [parameter(Mandatory=$True)][string]$MvGuid
     ) 
+
     $objPath = $global:Logpath + "\" + "OBJECT"
     if(Test-path $objPath){}else{New-item -ItemType Directory -Path $objPath }
 
@@ -297,10 +297,24 @@ function Get-MVinfo{
 
 function Get-ObjectInfo{
     param(
-        [parameter(Mandatory=$True)][string]$ConnectorName,[string]$Dn
+        [parameter(Mandatory=$True)][string]$ConnectorName,[string]$Dn,[string]$DomainAdminName,[string]$DomainAdminPassword
     )
+
     $objPath = $global:Logpath + "\" + "OBJECT"
     if(Test-path $objPath){}else{New-item -ItemType Directory -Path $objPath }
+
+    if(($DomainAdminName -ne "") -and ($DomainAdminPassword)){
+        $securePassword = ConvertTo-SecureString –String $DomainAdminPassword –AsPlainText -Force
+        $credential = New-Object System.Management.Automation.PSCredential($DomainAdminName, $securePassword)
+
+        $adObjectFile = $objPath + "\LdapQuery_" + $Dn + ".xml"
+        $domainEntry = New-Object -TypeName System.DirectoryServices.DirectoryEntry "LDAP://$ConnectorName" ,$($credential.UserName),$($credential.GetNetworkCredential().password)
+        $searcher = New-Object -TypeName System.DirectoryServices.DirectorySearcher
+        $searcher.Filter = "(distinguishedName=$Dn)"
+        $searcher.SearchRoot = $domainEntry
+        $objectAD = $searcher.FindOne()
+        $objectAD.Properties | Export-Clixml -Path $adObjectFile
+    }
 
     $csObj = Get-CSinfo -ConnectorName $ConnectorName -ObjectDn $Dn
     $mvGuid = $csObj.ConnectedMVObjectId
@@ -338,7 +352,9 @@ function Get-CSExport{
     }
     Set-Location -Path $currentPath
 }
+
 function Get-ADSyncConfig {
+
     Import-Module "C:\Program Files\Microsoft Azure Active Directory Connect\AdSyncConfig\AdSyncConfig.psm1"
 
     $configPath = $global:Logpath + "\" + "CONFIG"
@@ -472,11 +488,13 @@ function Get-ADSyncConfig {
         }
     }
     $sChannelSettings = $generalConfig + "\SchannelSettings.hiv"
-    reg save "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL" $sChannelSettings
+    reg save "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL" $sChannelSettings > $null 2>&1
     $sslSettings = $generalConfig + "\SslSettings.hiv"
-    reg save "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Cryptography\Configuration\Local\SSL" $sslSettings
+    reg save "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Cryptography\Configuration\Local\SSL" $sslSettings > $null 2>&1
 }
+
 function Get-Logs{
+
     $aadcTracePath = $global:Logpath + "\" + "AADCTRACE"
     if(Test-path $aadcTracePath){}else{New-item -ItemType Directory -Path $aadcTracePath }
 
@@ -510,12 +528,14 @@ function Get-Logs{
     Copy-item $helthTracePath $aadcTracePath -Recurse
     
 }
+
 function Start-Initialize {
     if(([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]"Administrator") -eq $false){
         Write-Warning "You have to execute this script with Administration privilege."
         exit 1
     }
-    Start-Sleep 4
+
+    Start-Sleep 3
 
     if($global:Logpath -eq "c:\AADCLOG"){
         if(Test-Path $global:Logpath){}else{New-item -ItemType Directory -Path $global:Logpath | Out-Null}
@@ -535,15 +555,15 @@ function Start-Initialize {
 #endregion
 
 # Start main
-$errorActionPreference = "SilentlyContinue"
+$errorActionPreference = "silentlycontinue"
 $global:Logpath = $Logpath
 Write-Progress -Activity "Start-Initialize" -Status "Executing..." -CurrentOperation "Preparing to collect logs." -PercentComplete 10
 Start-Initialize
 
 # Collect Object Infomation
-if (($GetObjDomainName -ne "") -and ($GetObjADdn -ne "")){
+if (($GetObjDomainName -ne "") -and ($GetObjADdn -ne "") -and ($DomainAdminName -ne "") -and ($DomainAdminPassword)){
     Write-Progress -Activity "Get-ObjectInfo" -Status "Executing..." -CurrentOperation "Dumping object data." -PercentComplete 100
-    Get-ObjectInfo -ConnectorName $GetObjDomainName -Dn $GetObjADdn | Out-Null
+    Get-ObjectInfo -ConnectorName $GetObjDomainName -Dn $GetObjADdn -DomainAdminName $DomainAdminName -DomainAdminPassword $DomainAdminPassword | Out-Null
     exit 0
 }
 
