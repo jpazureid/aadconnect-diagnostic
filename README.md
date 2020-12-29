@@ -12,7 +12,7 @@
 
 ### 簡易取得
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -25,18 +25,18 @@
 <br>
 <br>
 
-### オブジェクト情報 (CS/MV) 取得
+### オブジェクト情報 (AD/CS/MV) 取得
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 以下のように、ドメイン名とオブジェクトの DN (DistinguishName) 値を指定してスクリプトを実行します。 
 
     ```powershell
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "<ドメイン名>" -GetObjADdn "<DN 値>"
+    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "<ドメイン名>" -GetObjADdn "<DN 値>" -DomainAdminName "ドメイン管理者名" -DomainAdminPassword "ドメイン管理者パスワード"
     ```
     例: 
     ```powershell
-    .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com"
+    .\Get-AADCDiagData.ps1 -Logpath "C:\Tmp" -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com" -DomainAdminName "consoto\admin01" -DomainAdminPassword "Password"
     ```
     
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
@@ -46,7 +46,7 @@
 
 ### シナリオトレース (オブジェクト同期、パスワードハッシュ同期、パスワードライトバック)
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -71,7 +71,7 @@
 
 ### シナリオトレース (パススルー認証)
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -94,7 +94,7 @@
 
 ### シナリオトレース (Azure AD Connect Health for Sync)
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
@@ -119,7 +119,7 @@
 
 ### シナリオトレース (構成ウィザード)
 
-1. [Code] - [Download ZIP] より Get-AADCDiagData.ps1 をダウンロードします。
+1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
 3. 下記のように実行します。
 
