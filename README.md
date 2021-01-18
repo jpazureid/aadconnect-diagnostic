@@ -117,7 +117,7 @@
 <br>
 <br>
 
-### シナリオトレース (構成ウィザード、およびその他のシナリオ)
+### シナリオトレース (構成ウィザード、またはその他のシナリオ)
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
