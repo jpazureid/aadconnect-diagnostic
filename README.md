@@ -153,3 +153,14 @@
 Powershell.exe -ExecutionPolicy ByPass -Command {.\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> }
 ```
 
+## Microsoft Entra Connect v2.4.18.0 以降のバージョンをご利用の方へ
+Microsoft Entra Connect v2.4.18.0 でリリースされた機能 (https://learn.microsoft.com/ja-jp/entra/identity/hybrid/connect/reference-connect-version-history#updated-features) により、ADSync PowerShell モジュールのコマンドレットのうち、一部のコマンドを実行する際に Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の資格情報の入力が求められる動作に変更されています。
+
+各手順で利用するスクリプト (Get-AADCDiagData.ps1) 内には、資格情報の入力が必要なコマンドが含まれております。
+
+つきましては、以下のように "AADUserName" の入力を求められた場合には、Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の UPN を入力し、Enter キーを押して、ログインしたうえで後続の手順を実施いただけますと幸いです。
+
+
+![image](/images/aadusername.png)
+
+
