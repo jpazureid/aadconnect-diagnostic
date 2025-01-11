@@ -1,16 +1,8 @@
-# AADC サーバー情報一括採取ツール
+# AADC (Microsoft Entra Connect Sync) サーバーの一括情報採取ツール
 
-## 概要
+本スクリプトは、AADC サーバーの情報を一括で採取します。発生している問題ごとに、採取手順を用意しました。サポートエンジニアより依頼がありました際には、各項目の内容を確認し、情報を採取ください。
 
-本スクリプトは、AADC サーバーの情報を一括で採取します。
-  
-<br>
-
-
-## AADC サーバー情報一括採取ツールの手順
-
-
-### 簡易取得
+## 簡易取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -22,10 +14,7 @@
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-
-### オブジェクト情報 (AD/CS/MV) 取得
+## オブジェクト情報 (AD/CS/MV) の取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -41,10 +30,7 @@
     
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-
-### シナリオトレース (オブジェクト同期、パスワードハッシュ同期、パスワードライトバック)
+## シナリオ トレース (オブジェクト同期、パスワード ハッシュ同期、パスワード ライトバック) の取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -54,22 +40,16 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor DirSyncAndPHSAndPWB
     ```
 
-
-	**!! ご留意ください !!** 
-
-	Azure AD Connect の下記 サービス再起動します。
-
-	***Microsoft Azure AD Sync***
-
-	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
-
+> [!WARNING]
+> 上記コマンドを実行すると Azure AD Connect の下記サービスが再起動します。
+> 
+> **Microsoft Azure AD Sync**
+>
+> サービスは直ぐに起動されますのでサービス提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は "y" を入力して進めてください。)
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-
-### シナリオトレース (パススルー認証)
+## シナリオ トレース (パススルー認証) の取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -79,20 +59,16 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor PathThroughAuth
     ```
 
-	**!! ご留意ください !!**
-	
-	Azure AD Connect Passthrough Authentication の下記 サービス再起動します。
-
-	***Microsoft Azure AD Connect Authentication Agent***
-
-	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+> [!WARNING]
+> 上記コマンドを実行すると Azure AD Connect Passthrough Authentication の下記サービスが再起動します。
+>
+> **Microsoft Azure AD Connect Authentication Agent**
+> 
+> サービスは直ぐに起動されますのでサービス提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は "y" を入力して進めてください。)
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-
-### シナリオトレース (Azure AD Connect Health for Sync)
+## シナリオ トレース (Azure AD Connect Health for Sync) の取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -102,22 +78,17 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor Health
     ```
 
-	**!! ご留意ください !!**
-	
-	Azure AD Connect Health for Sync の下記 2 つのサービス再起動します。
-
-	***Azure AD Connect Health Sync Insights Service***
-	
-	***Azure AD Connect Health Sync Monitoring Service***
-
-	サービスは直ぐに起動されますため、サービスの機能提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
+> [!WARNING]
+> 上記コマンドを実行すると Azure AD Connect Health for Sync の下記 2 つのサービスが再起動します。
+>
+> **Azure AD Connect Health Sync Insights Service**
+> **Azure AD Connect Health Sync Monitoring Service**
+>
+> サービスは直ぐに起動されますのでサービス提供に問題はございませんが、サービス監視を実施されている場合は、監視ソフトにアラートが表示される可能性がございますのでご留意ください。(問題がない場合は ”y” を入力して進めてください。)
 
 4. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-
-### シナリオトレース (構成ウィザード、またはその他のシナリオ)
+## シナリオ トレース (構成ウィザードまたはその他のシナリオ) の取得
 
 1. [Releases](https://github.com/jpazureid/aadconnect-diagnostic/releases) で最新版の "Source code" をダウンロードし、Get-AADCDiagData.ps1 を取得します。
 2. PowerShell プロンプトを管理者として起動し、スクリプトを配置したフォルダーに移動します。
@@ -127,26 +98,24 @@
     .\Get-AADCDiagData.ps1 -Logpath <ログファイル出力先> -NetTraceFor ConfiguraionOrOtherthing
     ```
 
-	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+    上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
 
-		Please start configuration steps or other scenarios.
-		If you have finished all steps, then close configuration wizard and press enter here...:
-
+    ```
+    Please start configuration steps or other scenarios.
+    If you have finished all steps, then close configuration wizard and press enter here...:
+    ```
 
 4. 構成ウイザードなどを進め、エラー事象を再現します。
-
 5. エラー再現後は、手順 1 で開いた PowerShell ウィンドウ上で Enter キーを入力します。
 
-	※構成ウィザードを実行した場合は、構成ウィザードを閉じてから Enter を押してください。
+    ※構成ウィザードを実行した場合は、構成ウィザードを閉じてから Enter を押してください。
 
 6. AADCLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
-<br>
-<br>
-<br>
+## エラーが出力される場合
 
-## エラーが出力する場合
-以下のようなエラーが出力した場合は、スクリプトを後述の通り実行ください。
+以下のようなエラーが出力した場合は、スクリプトを後述のとおり実行ください。
+
 ![image](/images/pserror.png)
 
 ```powershell
@@ -154,13 +123,7 @@ Powershell.exe -ExecutionPolicy ByPass -Command {.\Get-AADCDiagData.ps1 -Logpath
 ```
 
 ## Microsoft Entra Connect v2.4.18.0 以降のバージョンをご利用の方へ
-Microsoft Entra Connect v2.4.18.0 でリリースされた機能 (https://learn.microsoft.com/ja-jp/entra/identity/hybrid/connect/reference-connect-version-history#updated-features) により、ADSync PowerShell モジュールのコマンドレットのうち、一部のコマンドを実行する際に Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の資格情報の入力が求められる動作に変更されています。
 
-各手順で利用するスクリプト (Get-AADCDiagData.ps1) 内には、資格情報の入力が必要なコマンドが含まれております。
-
-つきましては、以下のように "AADUserName" の入力を求められた場合には、Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の UPN を入力し、Enter キーを押して、ログインしたうえで後続の手順を実施いただけますと幸いです。
-
+Microsoft Entra Connect [v2.4.18.0 でリリースされた機能](https://learn.microsoft.com/ja-jp/entra/identity/hybrid/connect/reference-connect-version-history#updated-features) により、ADSync PowerShell モジュールのコマンドレットのうち一部のコマンドを実行すると、Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の資格情報の入力が求められます。各手順で利用するスクリプト (Get-AADCDiagData.ps1) 内には、資格情報の入力が必要なコマンドが含まれております。つきましては、以下のように "AADUserName" の入力を求められた場合には、Entra ID の管理者 (グローバル管理者 もしくは ハイブリッド ID の管理者) の UPN を入力し、Enter キーを押して、ログインしたうえで後続の手順を実施ください。
 
 ![image](/images/aadusername.png)
-
-
