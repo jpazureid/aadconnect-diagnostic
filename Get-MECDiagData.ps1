@@ -1,27 +1,27 @@
 ﻿<#
     .Synopsis
-    Version 10.0.0
+    Version 10.2.0
 
     .DESCRIPTION
     Collect Microsoft Entra Connectlogs.
 
     .PARAMETER Logpath
-    Specifies the log path. It's not mandatory. Default value is c:\MECCLOG.
+    Specifies the log path. It's not mandatory. Default value is c:\MECLOG.
     
     .EXAMPLE
-    .\Get-AADCDiagData.ps1 -Logpath C:\Tmp
+    .\Get-MECDiagData.ps1 -Logpath C:\Tmp
 
     .PARAMETER NetTrace
     Specifies boolean for custom trace.
     
     .EXAMPLE
-    .\Get-AADCDiagData.ps1 -NetTrace $true
+    .\Get-MECDiagData.ps1 -NetTrace $true
 
     .PARAMETER GetObjDomainName,GetObjADdn,DomainAdminName and DomainAdminPassword
     Specifies distinguishName of AD object in order to collect it's CS information and MV information.
 
     .EXAMPLE
-    .\Get-AADCDiagData.ps1 -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com" -DomainAdminName "consoto\admin01" -DomainAdminPassword "Password"
+    .\Get-MECDiagData.ps1 -GetObjDomainName "contoso.com" -GetObjADdn "CN=user01,OU=users,DC=contoso,DC=com" -DomainAdminName "consoto\admin01" -DomainAdminPassword "Password"
 
 #>
 
@@ -55,12 +55,14 @@ function Get-HistoryLog {
         $successStepResult | Out-File -FilePath $runStepSuccessResultOutFile -Append
         Write-Output "## ConnectorDiscoveryErrors" | Out-File -FilePath $runStepSuccessResultOutFile -Append
         $successStepResult.ConnectorDiscoveryErrors | Out-File -FilePath $runStepSuccessResultOutFile -Append
+        Write-Output "## SyncErrors" | Out-File -FilePath $runStepSuccessResultOutFile -Append
+        $successStepResult.SyncErrors | Out-File -FilePath $runStepSuccessResultOutFile -Append
         Write-Output "## MvRetryErrors" | Out-File -FilePath $runStepSuccessResultOutFile -Append
         $successStepResult.MvRetryErrors | Out-File -FilePath $runStepSuccessResultOutFile -Append
     }
         
         
-    $errorResults = $runHistory |  Where-Object{$_.Result -ne "success"} | select -First 10
+    $errorResults = $runHistory |  Where-Object{$_.Result -ne "success"} | Select-Object -First 10
     foreach($errorResult in $errorResults){
         $errorResultStep = Get-ADSyncRunStepResult -RunHistoryId $errorResult.RunHistoryId
         Write-Output "## ErrorStepResultAll" | Out-File -FilePath $runStepErrorResultOutFile -Append
@@ -70,8 +72,8 @@ function Get-HistoryLog {
         Write-Output "## MvRetryErrors" | Out-File -FilePath $runStepErrorResultOutFile -Append
         $errorResultStep.MvRetryErrors | Out-File -FilePath $runStepErrorResultOutFile -Append
             
+        Write-Output "## SyncErrors" | Out-File -FilePath $runStepErrorResultOutFile -Append
         $runprofileErrorXml = $errorResultStep.SyncErrors.SyncErrorsXml
-        Write-Output "## ErrorXml" | Out-File -FilePath $runStepErrorResultOutFile -Append
         $runprofileErrorXml  | Out-File -FilePath $runStepErrorResultOutFile -Append
             
         $xmlRunprofileError = [xml]$runprofileErrorXml
@@ -120,7 +122,7 @@ function Get-NetworkTrace{
 
     netsh trace start traceFile=.\Netmondummy.etl capture=yes report=disabled
     netsh trace stop
-    del Netmondummy.*
+    del Netmondummy.etl
     netsh trace start capture=yes scenario=InternetClient_dbg maxsize=2048 tracefile=$etlLogFile
 
 
@@ -129,14 +131,15 @@ function Get-NetworkTrace{
     klist purge -li 0x3e7
     klist purge -li 0x3e4
 
-    Write-Host "Please start steps." -ForegroundColor Green -BackgroundColor Black
+    Write-Host "Please start steps. You can press enter when you finish all steps....." -ForegroundColor Green -BackgroundColor Black
     $startDate = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
     $startDate + " Trace Start." | Out-File -FilePath $operationLog -Append
     $psrPath = $netTracePath + "\psr.zip"
     psr /start /sc 1 /maxsc 100 /gui 0 /output $psrPath
     
-    $answer =  Read-Host "If you have finished all steps, then close configuration wizard and press enter here..." 
-    
+    $answer =  Read-Host 
+    Write-Host "Stopped all trace logs. Please wait for a while." -ForegroundColor Green -BackgroundColor Black
+
 
     ## Stop Trace
     $endDate = Get-Date -Format "yyyy/MM/dd HH:mm:ss"
@@ -322,10 +325,12 @@ function Get-ADSyncConfig {
 
     }
     Get-ADSyncDatabaseConfiguration | Out-File -FilePath $aadcConfig\Get-ADSyncDatabaseConfiguration.txt -Append
-    $exportDeletionThresholdSwitch = (Get-Command Get-ADSyncExportDeletionThreshold).Parameters.Keys | Select-Object -First 1
-    if($exportDeletionThresholdSwitch -ne "AADCredential"){
-        Get-ADSyncExportDeletionThreshold | Out-File -FilePath $aadcConfig\Get-ADSyncExportDeletionThreshold.txt -Append
-    }
+
+    
+    ##$exportDeletionThresholdSwitch = (Get-Command Get-ADSyncExportDeletionThreshold).Parameters.Keys | Select-Object -First 1
+    ##if($exportDeletionThresholdSwitch -ne "AADCredential"){
+    ##    Get-ADSyncExportDeletionThreshold | Out-File -FilePath $aadcConfig\Get-ADSyncExportDeletionThreshold.txt -Append
+    ##}
 
 
     (Get-ADSyncGlobalSettings).Parameters | Select-Object Name,Value | Out-File -FilePath $aadcConfig\Get-ADSyncGlobalSettings.txt
@@ -348,8 +353,8 @@ function Get-ADSyncConfig {
     
 
     # Health config
-    $healthProxyFile = $aadcConfig +"\Get-AzureADConnectHealthProxySettings.txt"
-    Get-AzureADConnectHealthProxySettings | Out-File -FilePath $HealthProxyFile -Append
+    ##$healthProxyFile = $aadcConfig +"\Get-AzureADConnectHealthProxySettings.txt"
+    ##Get-AzureADConnectHealthProxySettings | Out-File -FilePath $HealthProxyFile -Append
     
     # General config
     $machineconfigFile = $env:windir + "\Microsoft.NET\Framework64\v4.0.30319\Config\machine.config"
@@ -378,10 +383,10 @@ function Get-ADSyncConfig {
     certutil -v -silent -store MY > $generalConfig\cert-machine-my.txt
     certutil -v -silent -store -user MY > $generalConfig\cert-user-my.txt
 
-    reg save HKLM\SYSTEM $generalConfig\REG_HKLM_SYSTEM_Hive.hiv > $null 2>&1
-    reg export HKLM\SYSTEM $generalConfig\REG_HKLM_SYSTEM_Hive.log > $null 2>&1
-    reg save HKLM\Software $generalConfig\REG_HKLM_Software_Hive.hiv > $null 2>&1
-    reg export HKLM\Software $generalConfig\REG_HKLM_Software_Hive.log > $null 2>&1
+    reg save HKLM\SYSTEM\ $generalConfig\REG_HKLM_SYSTEM_Hive.hiv > $null 2>&1
+    reg export HKLM\SYSTEM\ $generalConfig\REG_HKLM_SYSTEM_Hive.log > $null 2>&1
+    reg save HKLM\Software\ $generalConfig\REG_HKLM_Software_Hive.hiv > $null 2>&1
+    reg export HKLM\Software\ $generalConfig\REG_HKLM_Software_Hive.log > $null 2>&1
     reg export HKU $generalConfig\REG_HKU.log > $null 2>&1
 
 }
@@ -406,22 +411,31 @@ function Get-Logs{
     $capEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_CAPI2_Operational.evtx"
     wevtutil epl Microsoft-Windows-CAPI2/Operational $capEventPath
     
-    $updEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_Microsoft_AzureADConnect_AgentUpdater_Admin.evtx"
-    wevtutil epl Microsoft-AzureADConnect-AgentUpdater/Admin $updEventPath > $null 2>&1
+    ##$updEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_Microsoft_AzureADConnect_AgentUpdater_Admin.evtx"
+    ##wevtutil epl Microsoft-AzureADConnect-AgentUpdater/Admin $updEventPath > $null 2>&1
     
-    $ptaEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_Microsoft_AzureADConnect_AuthenticationAgent_Admin.evtx"
-    wevtutil epl Microsoft-AzureADConnect-AuthenticationAgent/Admin $ptaEventPath > $null 2>&1
+    ##$ptaEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_Microsoft_AzureADConnect_AuthenticationAgent_Admin.evtx"
+    ##wevtutil epl Microsoft-AzureADConnect-AuthenticationAgent/Admin $ptaEventPath > $null 2>&1
     
-    xcopy /s C:\Windows\System32\winevt\Logs\* $eventlogPath
+    ##$syncHealthEventPath = $eventlogPath + "\" + $env:COMPUTERNAME + "_Microsoft_AzureADConnectHealth_MonitorDataManagement_Operational.evtx"
+    ##wevtutil epl Microsoft-AzureADConnectHealth-MonitorDataManagement/Operational $syncHealthEventPath > $null 2>&1
+    
+    ##xcopy /s C:\Windows\System32\winevt\Logs\* $eventlogPath
 
 
     # Collect Tracelog
     $tracePath = $env:programdata + "\AADConnect"
     Copy-item $tracePath $aadcTracePath -Recurse
-    $passthrougtracePath = $env:programdata + "\Microsoft\Azure AD Connect Authentication Agent\"
-    Copy-item $passthrougtracePath $aadcTracePath -Recurse
-    $helthTracePath = $env:ProgramFiles + "\Microsoft Azure AD Connect Health Sync Agent"
-    Copy-item $helthTracePath $aadcTracePath -Recurse
+    
+    ##$healthTracePath = $env:programdata + "\Microsoft\AadConnectHealth"
+    ##Copy-item $healthTracePath $aadcTracePath -Recurse
+    
+    ##$passthrougtracePath = $env:programdata + "\Microsoft\Azure AD Connect Authentication Agent\"
+    ##Copy-item $passthrougtracePath $aadcTracePath -Recurse
+    
+    
+    ##$helthTracePath = $env:ProgramFiles + "\Microsoft Azure AD Connect Health Sync Agent"
+    ##Copy-item $helthTracePath $aadcTracePath -Recurse
     
 }
 
@@ -431,7 +445,7 @@ function Start-Initialize {
         exit 1
     }
 
-    Start-Sleep 3
+    Start-Sleep 1
 
     if($global:Logpath -eq "c:\MECLOG"){
         if(Test-Path $global:Logpath){}else{New-item -ItemType Directory -Path $global:Logpath | Out-Null}

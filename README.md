@@ -77,10 +77,9 @@
     .\Get-MECDiagData.ps1 -Logpath <ログファイル出力先> -NetTrace $true
     ```
 
-	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+	以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
 
-		Please start configuration steps or other scenarios.
-		If you have finished all steps, then close configuration wizard and press enter here...:
+		Please start steps. You can press enter when you finish all steps.....
 
 
 2. 3 分ほど待機します。
@@ -95,9 +94,13 @@
  
 7. ドメイン名の入力を求められた場合は、パスワード同期できていないユーザーが所属しているドメイン名を入力します。
  
-8. [Please enter AD connector space object Distinguished Name:] でパスワード同期できていないユーザーのdistinguishedName 属性を入力してEnter を押下します。
+8. [Please enter AD connector space object Distinguished Name:] でパスワード同期できていないユーザーの distinguishedName 属性を入力してEnter を押下します。
  
 9. 手順 1 で開いた PowerShell ウィンドウ上で Enter キーを入力します。
+
+	※以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+
+        Stopped all trace logs. Please wait for a while.
 
 10. MECLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
@@ -114,15 +117,17 @@
 
 	上記を実行すると以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
 
-		Please start configuration steps or other scenarios.
-		If you have finished all steps, then close configuration wizard and press enter here...:
+		Please start steps. You can press enter when you finish all steps.....
 
 
 2. 構成ウイザードを進め、エラー事象を再現します。
 
 3. エラー再現後は、手順 1 で開いた PowerShell ウィンドウ上で Enter キーを入力します。
 
-	※構成ウィザードを実行した場合は、構成ウィザードを閉じてから Enter を押してください。
+	※構成ウィザードを実行した場合は、構成ウィザードを閉じてから Enter を押してください。以下のように表示されますので、 PowerShell ウィンドウはそのまま維持します。
+
+        Stopped all trace logs. Please wait for a while.
+
 
 4. MECLOG フォルダーを zip 形式で圧縮し、弊社までご提供ください。
 
