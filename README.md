@@ -33,7 +33,7 @@
 
 ## オブジェクト情報 (AD/CS/MV) 取得
 
-1. 以下のように、対象オブジェクトの DN (DistinguishName) 値と対象オブジェクトが所属するドメイン名を指定してスクリプトを実行します。 
+1. 以下のように、対象オブジェクトの DN (DistinguishName) 値と対象オブジェクトが所属するドメイン名を指定してスクリプトを実行します。 AD に接続して情報を収集しますので、AD ドメインの管理者資格情報を併せて入力します。
 
     ```powershell
     .\Get-MECDiagData.ps1 -Logpath <ログファイル出力先> -GetObjDomainName "<ドメイン名>" -GetObjADdn "<DN 値>" -DomainAdminName "ドメイン管理者名" -DomainAdminPassword "ドメイン管理者パスワード"
