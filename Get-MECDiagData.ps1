@@ -1,6 +1,6 @@
 ﻿<#
     .Synopsis
-    Version 10.2.0
+    Version 10.3.0
 
     .DESCRIPTION
     Collect Microsoft Entra Connectlogs.
@@ -351,7 +351,9 @@ function Get-ADSyncConfig {
     
     Get-ADSyncServerConfiguration -Path $aadcConfig
     
-
+    Get-ADSyncEntraConnectorCredential  | Out-File -FilePath $aadcConfig\Get-ADSyncEntraConnectorCredential.txt  -Append
+    (Get-ADSyncEntraConnectorCredential).CertificateCredential | Out-File -FilePath $aadcConfig\Get-ADSyncEntraConnectorCredential.txt  -Append
+    
     # Health config
     ##$healthProxyFile = $aadcConfig +"\Get-AzureADConnectHealthProxySettings.txt"
     ##Get-AzureADConnectHealthProxySettings | Out-File -FilePath $HealthProxyFile -Append
